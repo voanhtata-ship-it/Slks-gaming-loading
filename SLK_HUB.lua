@@ -3,10 +3,10 @@
 
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
-local UIS = game:GetService("UserInputService")
+local UserInputService = game:GetService("UserInputService")
 local player = Players.LocalPlayer
 
--- CLEAR OLD
+-- CLEAR OLD GUI
 for _,v in pairs(player.PlayerGui:GetChildren()) do
 	if v.Name == "SLK_LOADING" or v.Name == "SLK_MENU" then
 		v:Destroy()
@@ -136,7 +136,6 @@ content.Position = UDim2.new(0,0,0,45)
 content.Size = UDim2.new(1,0,1,-45)
 content.BackgroundTransparency = 1
 
--- TAB BUTTON
 local infoBtn = Instance.new("TextButton", content)
 infoBtn.Size = UDim2.new(0,100,0,35)
 infoBtn.Position = UDim2.new(0,10,0,10)
@@ -146,7 +145,6 @@ infoBtn.TextSize = 14
 infoBtn.BackgroundTransparency = 0.2
 infoBtn.BorderSizePixel = 0
 
--- INFO PANEL
 local info = Instance.new("Frame", content)
 info.Position = UDim2.new(0,10,0,55)
 info.Size = UDim2.new(1,-20,1,-65)
@@ -157,24 +155,24 @@ local vn = Instance.new("TextLabel", info)
 vn.Size = UDim2.new(0.47,0,1,0)
 vn.BackgroundTransparency = 1
 vn.TextWrapped = true
-vn.TextXAlignment = Left
-vn.TextYAlignment = Top
+vn.TextXAlignment = Enum.TextXAlignment.Left
+vn.TextYAlignment = Enum.TextYAlignment.Top
 vn.Font = Enum.Font.GothamBold
 vn.TextSize = 15
-vn.Text = 
+vn.Text =
 "🇻🇳 VIỆT NAM\n\n"..
 "• SLK HUB V1\n"..
 "• Có loading 0 → 100%\n"..
 "• Menu kéo & thu nhỏ\n"..
-"• Tối ưu Mobile\n"
+"• Tối ưu Mobile"
 
 local en = Instance.new("TextLabel", info)
 en.Position = UDim2.new(0.53,0,0,0)
 en.Size = UDim2.new(0.47,0,1,0)
 en.BackgroundTransparency = 1
 en.TextWrapped = true
-en.TextXAlignment = Left
-en.TextYAlignment = Top
+en.TextXAlignment = Enum.TextXAlignment.Left
+en.TextYAlignment = Enum.TextYAlignment.Top
 en.Font = Enum.Font.GothamBold
 en.TextSize = 15
 en.Text =
@@ -182,9 +180,8 @@ en.Text =
 "• SLK HUB V1\n"..
 "• Loading system 0 → 100%\n"..
 "• Draggable & minimizable UI\n"..
-"• Mobile friendly\n"
+"• Mobile friendly"
 
--- TAB CLICK
 infoBtn.MouseButton1Click:Connect(function()
 	info.Visible = not info.Visible
 end)
@@ -201,30 +198,41 @@ minBtn.MouseButton1Click:Connect(function()
 	minBtn.Text = minimized and "+" or "-"
 end)
 
--- DRAG (TOP ONLY)
-local dragging, dragStart, startPos
+-- ===== DRAG FIX (PC + MOBILE) =====
+local dragging = false
+local dragStart
+local startPos
+
+local function update(input)
+	local delta = input.Position - dragStart
+	main.Position = UDim2.new(
+		startPos.X.Scale,
+		startPos.X.Offset + delta.X,
+		startPos.Y.Scale,
+		startPos.Y.Offset + delta.Y
+	)
+end
+
 top.InputBegan:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+	if input.UserInputType == Enum.UserInputType.MouseButton1
+	or input.UserInputType == Enum.UserInputType.Touch then
 		dragging = true
 		dragStart = input.Position
 		startPos = main.Position
+
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
 	end
 end)
 
-top.InputEnded:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 then
-		dragging = false
-	end
-end)
-
-UIS.InputChanged:Connect(function(input)
-	if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-		local delta = input.Position - dragStart
-		main.Position = UDim2.new(
-			startPos.X.Scale,
-			startPos.X.Offset + delta.X,
-			startPos.Y.Scale,
-			startPos.Y.Offset + delta.Y
-		)
+top.InputChanged:Connect(function(input)
+	if dragging and (
+		input.UserInputType == Enum.UserInputType.MouseMovement
+		or input.UserInputType == Enum.UserInputType.Touch
+	) then
+		update(input)
 	end
 end)
