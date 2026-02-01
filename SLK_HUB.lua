@@ -42,7 +42,6 @@ by.Font = Enum.Font.Gotham
 by.TextSize = 14
 by.TextColor3 = Color3.fromRGB(80,80,80)
 
--- BAR BACKGROUND (TRONG SUỐT)
 local barBG = Instance.new("Frame", frame)
 barBG.Size = UDim2.new(0.8,0,0,20)
 barBG.Position = UDim2.new(0.1,0,0.45,0)
@@ -73,7 +72,6 @@ welcome.TextSize = 16
 welcome.TextColor3 = Color3.fromRGB(0,0,0)
 welcome.Text = "Initializing..."
 
--- LOADING PROCESS (0 → 100)
 for i = 0,100 do
 	bar.Size = UDim2.new(i/100,0,1,0)
 	percent.Text = "Loading "..i.."%"
@@ -90,10 +88,10 @@ for i = 0,100 do
 		welcome.Text = "Done!"
 	end
 
-	task.wait(0.05)
+	task.wait(0.04)
 end
 
-task.wait(0.4)
+task.wait(0.3)
 loadingGui:Destroy()
 
 -- ================= MENU =================
@@ -141,6 +139,63 @@ content.Position = UDim2.new(0,0,0,45)
 content.Size = UDim2.new(1,0,1,-45)
 content.BackgroundTransparency = 1
 
+-- TAB INFO BUTTON
+local infoBtn = Instance.new("TextButton", content)
+infoBtn.Size = UDim2.new(0,80,0,30)
+infoBtn.Position = UDim2.new(0,10,0,10)
+infoBtn.Text = "INFO"
+infoBtn.Font = Enum.Font.GothamBold
+infoBtn.TextSize = 14
+infoBtn.BackgroundTransparency = 0.3
+infoBtn.BackgroundColor3 = Color3.fromRGB(200,200,200)
+infoBtn.BorderSizePixel = 0
+
+-- INFO CONTENT
+local infoFrame = Instance.new("Frame", content)
+infoFrame.Size = UDim2.new(1,-20,1,-60)
+infoFrame.Position = UDim2.new(0,10,0,50)
+infoFrame.BackgroundTransparency = 1
+infoFrame.Visible = false
+
+local vn = Instance.new("TextLabel", infoFrame)
+vn.Size = UDim2.new(0.48,0,1,0)
+vn.Position = UDim2.new(0,0,0,0)
+vn.BackgroundTransparency = 1
+vn.TextWrapped = true
+vn.TextYAlignment = Top
+vn.Font = Enum.Font.Gotham
+vn.TextSize = 14
+vn.TextColor3 = Color3.fromRGB(0,0,0)
+vn.Text =
+[[🇻🇳 VIỆT NAM
+• SLK HUB phiên bản V1
+• Giao diện trong suốt, nhẹ
+• Có loading + menu kéo
+• Dùng cho học & test UI
+• Không phá game]]
+
+local en = Instance.new("TextLabel", infoFrame)
+en.Size = UDim2.new(0.48,0,1,0)
+en.Position = UDim2.new(0.52,0,0,0)
+en.BackgroundTransparency = 1
+en.TextWrapped = true
+en.TextYAlignment = Top
+en.Font = Enum.Font.Gotham
+en.TextSize = 14
+en.TextColor3 = Color3.fromRGB(0,0,0)
+en.Text =
+[[🇺🇸 ENGLISH
+• SLK HUB Version V1
+• Clean & transparent UI
+• Smooth loading system
+• Draggable & minimizable
+• UI learning purpose]]
+
+infoBtn.MouseButton1Click:Connect(function()
+	infoFrame.Visible = not infoFrame.Visible
+end)
+
+-- MINIMIZE
 local minimized = false
 local full = UDim2.new(0,450,0,300)
 local mini = UDim2.new(0,450,0,45)
