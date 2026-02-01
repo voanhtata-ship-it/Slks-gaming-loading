@@ -5,7 +5,7 @@ local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
--- CLEAN OLD
+-- CLEAR OLD GUI
 for _,v in pairs(player.PlayerGui:GetChildren()) do
 	if v.Name == "SLK_LOADING" or v.Name == "SLK_MENU" then
 		v:Destroy()
@@ -21,7 +21,8 @@ local frame = Instance.new("Frame", loadingGui)
 frame.Size = UDim2.new(0,420,0,260)
 frame.Position = UDim2.new(0.5,-210,0.5,-130)
 frame.BackgroundColor3 = Color3.fromRGB(255,255,255)
-frame.BorderSizePixel = 2
+frame.BackgroundTransparency = 0.4
+frame.BorderSizePixel = 0
 
 local title = Instance.new("TextLabel", frame)
 title.Size = UDim2.new(1,0,0,40)
@@ -41,15 +42,18 @@ by.Font = Enum.Font.Gotham
 by.TextSize = 14
 by.TextColor3 = Color3.fromRGB(80,80,80)
 
+-- BAR BACKGROUND (TRONG SUỐT)
 local barBG = Instance.new("Frame", frame)
 barBG.Size = UDim2.new(0.8,0,0,20)
 barBG.Position = UDim2.new(0.1,0,0.45,0)
-barBG.BackgroundColor3 = Color3.fromRGB(0,0,0)
+barBG.BackgroundColor3 = Color3.fromRGB(255,255,255)
+barBG.BackgroundTransparency = 0.6
 barBG.BorderSizePixel = 0
 
 local bar = Instance.new("Frame", barBG)
 bar.Size = UDim2.new(0,0,1,0)
 bar.BackgroundColor3 = Color3.fromRGB(0,170,255)
+bar.BorderSizePixel = 0
 
 local percent = Instance.new("TextLabel", frame)
 percent.Size = UDim2.new(1,0,0,25)
@@ -67,35 +71,9 @@ welcome.BackgroundTransparency = 1
 welcome.Font = Enum.Font.Code
 welcome.TextSize = 16
 welcome.TextColor3 = Color3.fromRGB(0,0,0)
-welcome.Text = "Starting..."
+welcome.Text = "Initializing..."
 
--- BINARY
-local binary = Instance.new("TextLabel", frame)
-binary.Size = UDim2.new(0.9,0,0,20)
-binary.Position = UDim2.new(1,0,0.75,0)
-binary.BackgroundTransparency = 1
-binary.Text = "101010101010010101010010101010"
-binary.Font = Enum.Font.Code
-binary.TextSize = 14
-binary.TextColor3 = Color3.fromRGB(0,0,0)
-binary.TextXAlignment = Enum.TextXAlignment.Left
-binary.ClipsDescendants = true
-
-task.spawn(function()
-	while loadingGui.Parent do
-		binary.Position = UDim2.new(1,0,0.75,0)
-		binary:TweenPosition(
-			UDim2.new(-1,0,0.75,0),
-			Enum.EasingDirection.Linear,
-			Enum.EasingStyle.Linear,
-			3,
-			true
-		)
-		task.wait(3)
-	end
-end)
-
--- LOADING PROCESS
+-- LOADING PROCESS (0 → 100)
 for i = 0,100 do
 	bar.Size = UDim2.new(i/100,0,1,0)
 	percent.Text = "Loading "..i.."%"
@@ -115,7 +93,7 @@ for i = 0,100 do
 	task.wait(0.05)
 end
 
-task.wait(0.5)
+task.wait(0.4)
 loadingGui:Destroy()
 
 -- ================= MENU =================
@@ -127,7 +105,7 @@ local main = Instance.new("Frame", gui)
 main.Size = UDim2.new(0,450,0,300)
 main.Position = UDim2.new(0.5,-225,0.5,-150)
 main.BackgroundColor3 = Color3.fromRGB(255,255,255)
-main.BackgroundTransparency = 0.25
+main.BackgroundTransparency = 0.35
 main.BorderSizePixel = 0
 main.Active = true
 main.Draggable = true
@@ -135,7 +113,7 @@ main.Draggable = true
 local top = Instance.new("Frame", main)
 top.Size = UDim2.new(1,0,0,45)
 top.BackgroundColor3 = Color3.fromRGB(230,230,230)
-top.BackgroundTransparency = 0.2
+top.BackgroundTransparency = 0.3
 top.BorderSizePixel = 0
 
 local title2 = Instance.new("TextLabel", top)
@@ -155,7 +133,7 @@ btn.Text = "-"
 btn.Font = Enum.Font.GothamBold
 btn.TextSize = 22
 btn.BackgroundColor3 = Color3.fromRGB(200,200,200)
-btn.BackgroundTransparency = 0.2
+btn.BackgroundTransparency = 0.3
 btn.BorderSizePixel = 0
 
 local content = Instance.new("Frame", main)
