@@ -96,42 +96,97 @@ gui:Destroy()
 --// SLK HUB        VERSION v1
 --// BY SLK GAMING
 
-local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 
--- CLEAN OLD
-if Player.PlayerGui:FindFirstChild("SLK_HUB_GUI") then
-	Player.PlayerGui.SLK_HUB_GUI:Destroy()
-end
-
-local ScreenGui = Instance.new("ScreenGui", Player.PlayerGui)
+-- GUI
+local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "SLK_HUB_GUI"
 ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = Player:WaitForChild("PlayerGui")
 
+-- MAIN MENU
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0,540,0,330)
-Main.Position = UDim2.new(0.5,-270,0.5,-165)
+Main.Size = UDim2.new(0, 520, 0, 320)
+Main.Position = UDim2.new(0.5, -260, 0.5, -160)
 Main.BackgroundColor3 = Color3.fromRGB(255,255,255)
 Main.BackgroundTransparency = 1
 Main.BorderColor3 = Color3.fromRGB(0,200,0)
 Main.BorderSizePixel = 2
-Main.Active = false
-Main.Draggable = false
+Main.Active = true
+Main.Draggable = true
 
-local Title = Instance.new("TextLabel", Main)
-Title.Size = UDim2.new(1,0,0,50)
+-- TOP BAR
+local Top = Instance.new("Frame", Main)
+Top.Size = UDim2.new(1,0,0,40)
+Top.BackgroundTransparency = 1
+
+local Title = Instance.new("TextLabel", Top)
+Title.Size = UDim2.new(1,-40,1,0)
+Title.Position = UDim2.new(0,10,0,0)
 Title.BackgroundTransparency = 1
-Title.Text = "SLK HUB        VERSION v1\nBY SLK GAMING"
+Title.TextXAlignment = Left
 Title.Font = Enum.Font.SourceSansBold
 Title.TextSize = 18
 Title.TextColor3 = Color3.fromRGB(0,0,0)
-Title.TextTransparency = 1
+Title.Text = "SLK HUB        VERSION v1"
 
--- FADE IN
-TweenService:Create(Main, TweenInfo.new(0.7), {BackgroundTransparency = 0.2}):Play()
-TweenService:Create(Title, TweenInfo.new(0.7), {TextTransparency = 0}):Play()
+-- MINUS BUTTON
+local MinBtn = Instance.new("TextButton", Top)
+MinBtn.Size = UDim2.new(0,30,0,30)
+MinBtn.Position = UDim2.new(1,-35,0,5)
+MinBtn.Text = "–"
+MinBtn.Font = Enum.Font.SourceSansBold
+MinBtn.TextSize = 22
+MinBtn.BackgroundColor3 = Color3.fromRGB(230,230,230)
+MinBtn.BorderSizePixel = 0
 
-task.wait(0.8)
-Main.Active = true
-Main.Draggable = true
+-- FADE IN MENU
+TweenService:Create(Main, TweenInfo.new(0.6), {BackgroundTransparency = 0.2}):Play()
+for _,v in pairs(Main:GetDescendants()) do
+	if v:IsA("TextLabel") then
+		v.TextTransparency = 1
+		TweenService:Create(v, TweenInfo.new(0.6), {TextTransparency = 0}):Play()
+	end
+end
+
+-- MINI BAR (HIDDEN FIRST)
+local MiniBar = Instance.new("Frame", ScreenGui)
+MiniBar.Size = UDim2.new(0,200,0,35)
+MiniBar.Position = UDim2.new(0.5,-100,0.2,0)
+MiniBar.BackgroundColor3 = Color3.fromRGB(255,255,255)
+MiniBar.BorderColor3 = Color3.fromRGB(0,200,0)
+MiniBar.BorderSizePixel = 2
+MiniBar.Visible = false
+MiniBar.Active = true
+MiniBar.Draggable = true
+
+local PlusBtn = Instance.new("TextButton", MiniBar)
+PlusBtn.Size = UDim2.new(0,30,1,0)
+PlusBtn.Text = "+"
+PlusBtn.Font = Enum.Font.SourceSansBold
+PlusBtn.TextSize = 22
+PlusBtn.BackgroundColor3 = Color3.fromRGB(230,230,230)
+PlusBtn.BorderSizePixel = 0
+
+local MiniTitle = Instance.new("TextLabel", MiniBar)
+MiniTitle.Position = UDim2.new(0,35,0,0)
+MiniTitle.Size = UDim2.new(1,-35,1,0)
+MiniTitle.BackgroundTransparency = 1
+MiniTitle.Text = "SLK HUB"
+MiniTitle.Font = Enum.Font.SourceSansBold
+MiniTitle.TextSize = 16
+MiniTitle.TextColor3 = Color3.fromRGB(0,0,0)
+
+-- MINIMIZE
+MinBtn.MouseButton1Click:Connect(function()
+	Main.Visible = false
+	MiniBar.Visible = true
+end)
+
+-- RESTORE
+PlusBtn.MouseButton1Click:Connect(function()
+	MiniBar.Visible = false
+	Main.Visible = true
+end)
