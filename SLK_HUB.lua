@@ -1,121 +1,113 @@
---// SLK HUB - CUTE PASTEL LOADING ONLY
+--// SLK HUB LOADING - BIG SIZE + PERCENT
 --// By SLKS-GAMING
 
 local Players = game:GetService("Players")
-local LP = Players.LocalPlayer
-local PG = LP:WaitForChild("PlayerGui")
+local player = Players.LocalPlayer
+local guiParent = player:WaitForChild("PlayerGui")
 
--- Clear old loading
 pcall(function()
-	if PG:FindFirstChild("SLK_LOADING") then
-		PG.SLK_LOADING:Destroy()
+	if guiParent:FindFirstChild("SLK_LOADING") then
+		guiParent.SLK_LOADING:Destroy()
 	end
 end)
 
---================ SCREEN GUI ================
-local gui = Instance.new("ScreenGui")
-gui.Name = "SLK_LOADING"
-gui.ResetOnSpawn = false
-gui.Parent = PG
+--================ GUI =================
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "SLK_LOADING"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = guiParent
 
---================ MAIN FRAME ================
-local Main = Instance.new("Frame", gui)
-Main.Size = UDim2.fromScale(0.48, 0.28)
-Main.Position = UDim2.fromScale(0.26, 0.36)
+--================ MAIN FRAME =================
+local Main = Instance.new("Frame")
+Main.Parent = ScreenGui
+Main.Size = UDim2.fromScale(0.6, 0.35) -- 🔥 TO HƠN
+Main.Position = UDim2.fromScale(0.2, 0.32)
 Main.BackgroundColor3 = Color3.fromRGB(255,255,255)
-Main.BackgroundTransparency = 0.15
+Main.BackgroundTransparency = 0.12
 Main.BorderSizePixel = 0
 Main.Active = true
 Main.Draggable = true
 
-local Corner = Instance.new("UICorner", Main)
-Corner.CornerRadius = UDim.new(0, 24)
+local UICorner = Instance.new("UICorner", Main)
+UICorner.CornerRadius = UDim.new(0, 26)
 
---================ TITLE =====================
+--================ TITLE =================
 local Title = Instance.new("TextLabel", Main)
-Title.Size = UDim2.new(1,0,0.28,0)
+Title.Size = UDim2.new(1,0,0.25,0)
 Title.BackgroundTransparency = 1
-Title.Text = "⭐ SLK HUB 🌸\nVERSION V1\nBy SLKS-GAMING"
+Title.Text = "⭐ SLK HUB ⭐\nVERSION V1\nBy SLKS-GAMING"
 Title.Font = Enum.Font.GothamBold
-Title.TextSize = 22
-Title.TextColor3 = Color3.fromRGB(60,60,60)
+Title.TextSize = 26 -- 🔥 CHỮ TO
+Title.TextColor3 = Color3.fromRGB(50,50,50)
 
---================ STATUS ====================
+--================ STATUS =================
 local Status = Instance.new("TextLabel", Main)
 Status.Size = UDim2.new(1,0,0.12,0)
-Status.Position = UDim2.new(0,0,0.30,0)
+Status.Position = UDim2.new(0,0,0.27,0)
 Status.BackgroundTransparency = 1
 Status.Font = Enum.Font.Gotham
-Status.TextSize = 16
+Status.TextSize = 18
 Status.TextColor3 = Color3.fromRGB(90,90,90)
 Status.Text = "Initializing..."
 
---================ PERCENT ===================
+--================ PERCENT TEXT =================
 local Percent = Instance.new("TextLabel", Main)
-Percent.Size = UDim2.new(1,0,0.12,0)
-Percent.Position = UDim2.new(0,0,0.43,0)
+Percent.Size = UDim2.new(1,0,0.14,0)
+Percent.Position = UDim2.new(0,0,0.40,0)
 Percent.BackgroundTransparency = 1
 Percent.Font = Enum.Font.GothamBold
-Percent.TextSize = 18
+Percent.TextSize = 28 -- 🔥 RẤT RÕ
 Percent.TextColor3 = Color3.fromRGB(70,70,70)
 Percent.Text = "0%"
 
---================ BAR BG ====================
+--================ BAR BACKGROUND =================
 local BarBG = Instance.new("Frame", Main)
 BarBG.Size = UDim2.new(0.9,0,0.12,0)
-BarBG.Position = UDim2.new(0.05,0,0.60,0)
-BarBG.BackgroundColor3 = Color3.fromRGB(235,235,235)
-BarBG.BackgroundTransparency = 0.2
+BarBG.Position = UDim2.new(0.05,0,0.58,0)
+BarBG.BackgroundColor3 = Color3.fromRGB(230,230,230)
+BarBG.BackgroundTransparency = 0.25
 BarBG.BorderSizePixel = 0
 
 local BarBGCorner = Instance.new("UICorner", BarBG)
 BarBGCorner.CornerRadius = UDim.new(1,0)
 
---================ BAR =======================
+--================ BAR =================
 local Bar = Instance.new("Frame", BarBG)
 Bar.Size = UDim2.new(0,0,1,0)
-Bar.BackgroundColor3 = Color3.fromRGB(255,180,200) -- pastel pink
+Bar.BackgroundColor3 = Color3.fromRGB(255,170,190)
 Bar.BorderSizePixel = 0
 
 local BarCorner = Instance.new("UICorner", Bar)
 BarCorner.CornerRadius = UDim.new(1,0)
 
---================ MILESTONES =================
+--================ MARK NUMBERS =================
 local Marks = Instance.new("TextLabel", Main)
 Marks.Size = UDim2.new(1,0,0.10,0)
-Marks.Position = UDim2.new(0,0,0.75,0)
+Marks.Position = UDim2.new(0,0,0.74,0)
 Marks.BackgroundTransparency = 1
 Marks.Font = Enum.Font.Gotham
-Marks.TextSize = 14
+Marks.TextSize = 15
 Marks.TextColor3 = Color3.fromRGB(120,120,120)
-Marks.Text = "0  10  20  30  40  50  60  70  80  90  100"
+Marks.Text = "0   10   20   30   40   50   60   70   80   90   100"
 
---================ LOADING LOGIC ==============
-local steps = {
-	[0] = "Initializing...",
-	[10] = "Preparing UI...",
-	[20] = "Loading assets...",
-	[30] = "Sync data...",
-	[40] = "Almost there...",
-	[50] = "Halfway done!",
-	[60] = "Optimizing...",
-	[70] = "Final touches...",
-	[80] = "Checking system...",
-	[90] = "Ready to start!",
-	[100] = "Done! Enjoy ⭐"
+--================ LOADING LOGIC =================
+local texts = {
+	[0] = "Starting...",
+	[10] = "Loading UI...",
+	[25] = "Preparing system...",
+	[50] = "Halfway done...",
+	[75] = "Almost finished...",
+	[100] = "Done!"
 }
 
-for i = 0, 100, 1 do
+for i = 0, 100 do
 	Bar.Size = UDim2.new(i/100,0,1,0)
-	Percent.Text = i.."%"
-	if steps[i] then
-		Status.Text = steps[i]
+	Percent.Text = i .. "%"
+	if texts[i] then
+		Status.Text = texts[i]
 	end
 	task.wait(0.035)
 end
 
---================ END ========================
-task.wait(0.6)
-gui:Destroy()
-
--- 🔒 MENU MỚI SẼ ĐƯỢC LÀM SAU (KHÔNG GẮN Ở ĐÂY)
+task.wait(0.8)
+ScreenGui:Destroy()
