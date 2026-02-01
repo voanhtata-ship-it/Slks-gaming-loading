@@ -1,7 +1,8 @@
---// SLK HUB - LOADING ONLY
+--// SLK HUB - LOADING ONLY (FULL FIX)
 --// By SLKS-GAMING
 
 local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
 local LP = Players.LocalPlayer
 local PG = LP:WaitForChild("PlayerGui")
 
@@ -12,78 +13,65 @@ pcall(function()
 	end
 end)
 
--- GUI
+--================= GUI =================--
 local gui = Instance.new("ScreenGui")
 gui.Name = "SLK_LOADING"
 gui.ResetOnSpawn = false
 gui.Parent = PG
 
--- MAIN FRAME
-local Main = Instance.new("Frame", gui)
-Main.Size = UDim2.fromScale(0.55, 0.35)
-Main.Position = UDim2.fromScale(0.225, 0.325)
-Main.BackgroundColor3 = Color3.fromRGB(255,255,255)
-Main.BackgroundTransparency = 0.2
-Main.BorderSizePixel = 0
-Main.Active = true
-Main.Draggable = true
+--================= LOADING FRAME =================--
+local Load = Instance.new("Frame", gui)
+Load.Size = UDim2.fromScale(0.55, 0.28)
+Load.Position = UDim2.fromScale(0.225, 0.36)
+Load.BackgroundColor3 = Color3.fromRGB(245,245,245)
+Load.BorderSizePixel = 0
+Load.Active = true
+Load.Draggable = true
 
--- TITLE
-local Title = Instance.new("TextLabel", Main)
-Title.Size = UDim2.new(1,0,0.25,0)
+--================= TITLE =================--
+local Title = Instance.new("TextLabel", Load)
+Title.Size = UDim2.new(1,0,0.28,0)
 Title.BackgroundTransparency = 1
 Title.Text = "SLK HUB"
 Title.Font = Enum.Font.GothamBold
-Title.TextSize = 32
-Title.TextColor3 = Color3.new(0,0,0)
+Title.TextSize = 26
+Title.TextColor3 = Color3.fromRGB(20,20,20)
 
--- BY
-local By = Instance.new("TextLabel", Main)
-By.Size = UDim2.new(1,0,0.1,0)
-By.Position = UDim2.new(0,0,0.22,0)
-By.BackgroundTransparency = 1
-By.Text = "By SLKS-GAMING"
-By.Font = Enum.Font.Gotham
-By.TextSize = 14
-By.TextColor3 = Color3.new(0,0,0)
-
--- BAR BG
-local BarBG = Instance.new("Frame", Main)
-BarBG.Size = UDim2.new(0.85,0,0.12,0)
-BarBG.Position = UDim2.new(0.075,0,0.45,0)
+--================= BAR BG =================--
+local BarBG = Instance.new("Frame", Load)
+BarBG.Size = UDim2.new(0.9,0,0.14,0)
+BarBG.Position = UDim2.new(0.05,0,0.45,0)
 BarBG.BackgroundColor3 = Color3.fromRGB(220,220,220)
-BarBG.BackgroundTransparency = 0.4
 BarBG.BorderSizePixel = 0
 
--- BAR
+--================= BAR =================--
 local Bar = Instance.new("Frame", BarBG)
 Bar.Size = UDim2.new(0,0,1,0)
-Bar.BackgroundColor3 = Color3.fromRGB(255,255,255)
-Bar.BackgroundTransparency = 0.15
+Bar.BackgroundColor3 = Color3.fromRGB(120,180,255)
 Bar.BorderSizePixel = 0
 
--- PERCENT
-local Percent = Instance.new("TextLabel", Main)
-Percent.Size = UDim2.new(1,0,0.1,0)
-Percent.Position = UDim2.new(0,0,0.58,0)
-Percent.BackgroundTransparency = 1
-Percent.Text = "0%"
-Percent.Font = Enum.Font.GothamBold
-Percent.TextSize = 16
-Percent.TextColor3 = Color3.new(0,0,0)
-
--- STATUS TEXT (DƯỚI THANH)
-local Status = Instance.new("TextLabel", Main)
+--================= STATUS TEXT =================--
+local Status = Instance.new("TextLabel", Load)
 Status.Size = UDim2.new(1,0,0.15,0)
-Status.Position = UDim2.new(0,0,0.7,0)
+Status.Position = UDim2.new(0,0,0.63,0)
 Status.BackgroundTransparency = 1
-Status.Text = "Initializing..."
 Status.Font = Enum.Font.Gotham
 Status.TextSize = 16
-Status.TextColor3 = Color3.new(0,0,0)
+Status.TextColor3 = Color3.fromRGB(40,40,40)
+Status.Text = "Initializing..."
 
--- STATUS MAP
-local statusText = {
+--================= PERCENT =================--
+local Percent = Instance.new("TextLabel", Load)
+Percent.Size = UDim2.new(1,0,0.12,0)
+Percent.Position = UDim2.new(0,0,0.78,0)
+Percent.BackgroundTransparency = 1
+Percent.Font = Enum.Font.GothamBold
+Percent.TextSize = 16
+Percent.TextColor3 = Color3.fromRGB(40,40,40)
+Percent.Text = "0%"
+
+--================= LOADING LOGIC =================--
+local texts = {
 	[0] = "Initializing...",
 	[25] = "Loading assets...",
 	[50] = "Setting UI...",
@@ -91,18 +79,28 @@ local statusText = {
 	[100] = "Done!"
 }
 
--- LOADING LOOP
-for i = 0, 100 do
+for i = 0,100 do
 	Bar.Size = UDim2.new(i/100,0,1,0)
-	Percent.Text = i .. "%"
-
-	if statusText[i] then
-		Status.Text = statusText[i]
+	Percent.Text = i.."%"
+	if texts[i] then
+		Status.Text = texts[i]
 	end
-
 	task.wait(0.03)
 end
 
--- DONE
-task.wait(0.5)
--- Main:Destroy() -- để test, khi gắn menu thì bật dòng này
+--================= SHRINK & CLOSE =================--
+task.wait(0.3)
+
+local shrink = TweenService:Create(
+	Load,
+	TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+	{
+		Size = UDim2.fromScale(0,0),
+		Position = UDim2.fromScale(0.5,0.5)
+	}
+)
+
+shrink:Play()
+shrink.Completed:Wait()
+
+gui:Destroy()
