@@ -136,3 +136,105 @@ end
 
 task.wait(0.9)
 gui:Destroy()
+
+-- SLK HUB VERSION V1
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local Player = Players.LocalPlayer
+local PlayerGui = Player:WaitForChild("PlayerGui")
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "SLK_HUB_V1"
+ScreenGui.Parent = PlayerGui
+ScreenGui.ResetOnSpawn = false
+
+-- MAIN FRAME
+local Main = Instance.new("Frame")
+Main.Parent = ScreenGui
+Main.Size = UDim2.new(0, 520, 0, 320)
+Main.Position = UDim2.new(0.5, -260, 0.5, -160)
+Main.BackgroundColor3 = Color3.fromRGB(255,255,255)
+Main.BackgroundTransparency = 0.2
+Main.BorderSizePixel = 2
+Main.BorderColor3 = Color3.fromRGB(0, 200, 0)
+Main.Active = false
+Main.Draggable = false
+Main.Visible = false
+
+-- TOP BAR
+local Top = Instance.new("Frame", Main)
+Top.Size = UDim2.new(1, 0, 0, 40)
+Top.BackgroundColor3 = Color3.fromRGB(255,255,255)
+Top.BackgroundTransparency = 0.1
+Top.BorderSizePixel = 0
+
+-- TITLE
+local Title = Instance.new("TextLabel", Top)
+Title.Size = UDim2.new(1, -50, 1, 0)
+Title.Position = UDim2.new(0, 10, 0, 0)
+Title.BackgroundTransparency = 1
+Title.TextXAlignment = Left
+Title.TextYAlignment = Center
+Title.TextWrapped = true
+Title.Font = Enum.Font.SourceSansBold
+Title.TextSize = 16
+Title.TextColor3 = Color3.fromRGB(0,0,0)
+Title.Text =
+	"SLK HUB        VERSION V1\nBY SLK GAMING"
+
+-- CLOSE
+local Close = Instance.new("TextButton", Top)
+Close.Size = UDim2.new(0, 40, 1, 0)
+Close.Position = UDim2.new(1, -40, 0, 0)
+Close.Text = "X"
+Close.Font = Enum.Font.SourceSansBold
+Close.TextSize = 16
+Close.TextColor3 = Color3.fromRGB(255,255,255)
+Close.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
+
+Close.MouseButton1Click:Connect(function()
+	ScreenGui:Destroy()
+end)
+
+-- TAB
+local Tabs = Instance.new("Frame", Main)
+Tabs.Position = UDim2.new(0, 0, 0, 40)
+Tabs.Size = UDim2.new(0, 160, 1, -40)
+Tabs.BackgroundColor3 = Color3.fromRGB(255,255,255)
+Tabs.BackgroundTransparency = 0.25
+Tabs.BorderColor3 = Color3.fromRGB(0,200,0)
+Tabs.BorderSizePixel = 1
+
+-- CONTENT
+local Content = Instance.new("Frame", Main)
+Content.Position = UDim2.new(0, 160, 0, 40)
+Content.Size = UDim2.new(1, -160, 1, -40)
+Content.BackgroundColor3 = Color3.fromRGB(255,255,255)
+Content.BackgroundTransparency = 0.15
+Content.BorderColor3 = Color3.fromRGB(0,200,0)
+Content.BorderSizePixel = 1
+
+local Label = Instance.new("TextLabel", Content)
+Label.Size = UDim2.new(1, 0, 1, 0)
+Label.BackgroundTransparency = 1
+Label.Text = "CONTENT"
+Label.Font = Enum.Font.SourceSansBold
+Label.TextSize = 18
+Label.TextColor3 = Color3.fromRGB(0,0,0)
+
+-- FADE IN AFTER LOADING
+task.wait(0.2)
+Main.Visible = true
+Main.BackgroundTransparency = 1
+Top.BackgroundTransparency = 1
+
+local fadeIn = TweenService:Create(
+	Main,
+	TweenInfo.new(0.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+	{BackgroundTransparency = 0.2}
+)
+fadeIn:Play()
+
+task.wait(0.8)
+Main.Active = true
+Main.Draggable = true
