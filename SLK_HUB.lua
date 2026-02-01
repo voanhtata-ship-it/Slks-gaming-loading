@@ -1,4 +1,5 @@
---// SLK HUB V1 - FULL FIX (Loading + Menu)
+--// SLK HUB VERSION V1
+--// By SLKS-GAMING
 
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
@@ -15,6 +16,7 @@ end)
 local gui = Instance.new("ScreenGui", PG)
 gui.Name = "SLK_HUB"
 gui.ResetOnSpawn = false
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 --================= LOADING =================--
 local Load = Instance.new("Frame", gui)
@@ -29,38 +31,37 @@ local LoadTitle = Instance.new("TextLabel", Load)
 LoadTitle.Size = UDim2.new(1,0,0.4,0)
 LoadTitle.BackgroundTransparency = 1
 LoadTitle.Text = "WELCOME\nSLK HUB"
-LoadTitle.Font = Enum.Font.SourceSansBold
+LoadTitle.Font = Enum.Font.GothamBold
 LoadTitle.TextSize = 22
 LoadTitle.TextColor3 = Color3.new(0,0,0)
 
 local BarBG = Instance.new("Frame", Load)
-BarBG.Size = UDim2.new(0.9,0,0.2,0)
+BarBG.Size = UDim2.new(0.9,0,0.18,0)
 BarBG.Position = UDim2.new(0.05,0,0.65,0)
-BarBG.BackgroundColor3 = Color3.fromRGB(230,230,230)
-BarBG.BackgroundTransparency = 0.3
+BarBG.BackgroundTransparency = 0.5
+BarBG.BackgroundColor3 = Color3.fromRGB(200,200,200)
 
 local Bar = Instance.new("Frame", BarBG)
 Bar.Size = UDim2.new(0,0,1,0)
 Bar.BackgroundColor3 = Color3.fromRGB(255,255,255)
-Bar.BackgroundTransparency = 0.2
+Bar.BackgroundTransparency = 0.15
 
 local Percent = Instance.new("TextLabel", Load)
 Percent.Size = UDim2.new(1,0,0.2,0)
 Percent.Position = UDim2.new(0,0,0.45,0)
 Percent.BackgroundTransparency = 1
 Percent.Text = "0%"
-Percent.Font = Enum.Font.SourceSansBold
+Percent.Font = Enum.Font.GothamBold
 Percent.TextSize = 18
 Percent.TextColor3 = Color3.new(0,0,0)
 
--- Loading chạy
 for i = 0,100 do
-	Percent.Text = i.."%"
+	Percent.Text = "Loading "..i.."%"
 	Bar.Size = UDim2.new(i/100,0,1,0)
 	task.wait(0.03)
 end
 
-Load.Visible = false
+Load:Destroy()
 
 --================= MENU =================--
 local Main = Instance.new("Frame", gui)
@@ -71,79 +72,81 @@ Main.BackgroundTransparency = 0.25
 Main.Active = true
 Main.Draggable = true
 
--- Top bar
+-- TOP BAR
 local Top = Instance.new("Frame", Main)
 Top.Size = UDim2.new(1,0,0,40)
-Top.BackgroundColor3 = Color3.fromRGB(230,230,230)
 Top.BackgroundTransparency = 0.2
+Top.BackgroundColor3 = Color3.fromRGB(230,230,230)
+Top.Active = true
 
 local Title = Instance.new("TextLabel", Top)
 Title.Size = UDim2.new(1,-120,1,0)
 Title.Position = UDim2.new(0,10,0,0)
 Title.BackgroundTransparency = 1
-Title.Text = "SLK HUB  |  VERSION V1"
-Title.Font = Enum.Font.SourceSansBold
-Title.TextSize = 18
-Title.TextXAlignment = Left
+Title.Text = "SLK HUB    VERSION V1\nBy SLKS-GAMING"
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 16
+Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.TextColor3 = Color3.new(0,0,0)
 
--- Buttons
+-- BUTTONS
 local Min = Instance.new("TextButton", Top)
 Min.Size = UDim2.new(0,40,0,30)
 Min.Position = UDim2.new(1,-90,0,5)
 Min.Text = "-"
-Min.Font = Enum.Font.SourceSansBold
+Min.Font = Enum.Font.GothamBold
 Min.TextSize = 22
 
 local Close = Instance.new("TextButton", Top)
 Close.Size = UDim2.new(0,40,0,30)
 Close.Position = UDim2.new(1,-45,0,5)
 Close.Text = "X"
-Close.Font = Enum.Font.SourceSansBold
+Close.Font = Enum.Font.GothamBold
 Close.TextSize = 18
 
--- Content
+-- CONTENT
 local Content = Instance.new("Frame", Main)
 Content.Size = UDim2.new(1,0,1,-40)
 Content.Position = UDim2.new(0,0,0,40)
 Content.BackgroundTransparency = 1
 
--- Info
 local Info = Instance.new("TextLabel", Content)
 Info.Size = UDim2.new(1,-20,1,-20)
 Info.Position = UDim2.new(0,10,0,10)
 Info.BackgroundTransparency = 1
 Info.TextWrapped = true
-Info.TextYAlignment = Top
-Info.Font = Enum.Font.SourceSansBold
+Info.TextYAlignment = Enum.TextYAlignment.Top
+Info.Font = Enum.Font.GothamBold
 Info.TextSize = 18
 Info.TextColor3 = Color3.new(0,0,0)
-Info.Text =
-[[🇻🇳 THÔNG TIN
-SLK HUB V1
+Info.Text = [[
+🇻🇳 THÔNG TIN
+SLK HUB VERSION V1
 Menu trong suốt
 Fix toàn bộ lỗi
 Hỗ trợ Mobile & PC
 
 🇺🇸 INFO
-SLK HUB V1
+SLK HUB VERSION V1
 Transparent UI
 All bugs fixed
-Mobile & PC supported]]
+Mobile & PC supported
+]]
 
 --================= MINIMIZE =================--
-local mini = false
-local oldSize = Main.Size
+local minimized = false
+local fullSize = Main.Size
 
 Min.MouseButton1Click:Connect(function()
-	mini = not mini
-	if mini then
+	minimized = not minimized
+	if minimized then
 		Content.Visible = false
-		Main.Size = UDim2.new(oldSize.X.Scale,oldSize.X.Offset,0,40)
+		Main.Size = UDim2.new(fullSize.X.Scale, fullSize.X.Offset, 0, 40)
+		Min.Text = "+"
 	else
-		Main.Size = oldSize
-		task.wait(0.1)
+		Main.Size = fullSize
 		Content.Visible = true
+		Min.Text = "-"
 	end
 end)
 
@@ -152,17 +155,18 @@ local Confirm = Instance.new("Frame", gui)
 Confirm.Size = UDim2.fromScale(0.4,0.25)
 Confirm.Position = UDim2.fromScale(0.3,0.35)
 Confirm.BackgroundColor3 = Color3.fromRGB(255,255,255)
-Confirm.BackgroundTransparency = 0.2
+Confirm.BackgroundTransparency = 0.15
 Confirm.Visible = false
 Confirm.Active = true
 Confirm.Draggable = true
+Confirm.ZIndex = 10
 
 local CText = Instance.new("TextLabel", Confirm)
 CText.Size = UDim2.new(1,-20,0.5,0)
 CText.Position = UDim2.new(0,10,0,10)
 CText.BackgroundTransparency = 1
 CText.TextWrapped = true
-CText.Font = Enum.Font.SourceSansBold
+CText.Font = Enum.Font.GothamBold
 CText.TextSize = 18
 CText.TextColor3 = Color3.new(0,0,0)
 CText.Text = "DO YOU WANT CLOSE SCRIPT?"
