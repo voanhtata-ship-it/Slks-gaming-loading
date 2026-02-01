@@ -137,104 +137,157 @@ end
 task.wait(0.9)
 gui:Destroy()
 
--- SLK HUB VERSION V1
+--// SLK HUB        VERSION v1
+--// BY SLK GAMING
+
+
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
-local Player = Players.LocalPlayer
-local PlayerGui = Player:WaitForChild("PlayerGui")
+local player = Players.LocalPlayer
 
+-- ================= SCREEN GUI =================
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "SLK_HUB_V1"
-ScreenGui.Parent = PlayerGui
+ScreenGui.Name = "SLK_HUB_GUI"
 ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = player:WaitForChild("PlayerGui")
 
--- MAIN FRAME
-local Main = Instance.new("Frame")
-Main.Parent = ScreenGui
-Main.Size = UDim2.new(0, 520, 0, 320)
-Main.Position = UDim2.new(0.5, -260, 0.5, -160)
+-- ================= LOADING =================
+local Loading = Instance.new("Frame", ScreenGui)
+Loading.Size = UDim2.new(0,420,0,200)
+Loading.Position = UDim2.new(0.5,-210,0.5,-100)
+Loading.BackgroundColor3 = Color3.fromRGB(255,255,255)
+Loading.BorderColor3 = Color3.fromRGB(0,200,0)
+Loading.BorderSizePixel = 2
+
+local LTitle = Instance.new("TextLabel", Loading)
+LTitle.Size = UDim2.new(1,0,0,45)
+LTitle.BackgroundTransparency = 1
+LTitle.Text = "SLK HUB"
+LTitle.Font = Enum.Font.SourceSansBold
+LTitle.TextSize = 28
+LTitle.TextColor3 = Color3.fromRGB(0,0,0)
+
+local Percent = Instance.new("TextLabel", Loading)
+Percent.Position = UDim2.new(0,0,0,50)
+Percent.Size = UDim2.new(1,0,0,25)
+Percent.BackgroundTransparency = 1
+Percent.Text = "Loading 0%"
+Percent.Font = Enum.Font.Code
+Percent.TextSize = 16
+Percent.TextColor3 = Color3.fromRGB(0,0,0)
+
+local Binary = Instance.new("TextLabel", Loading)
+Binary.Position = UDim2.new(0,0,0.45,0)
+Binary.Size = UDim2.new(1,0,0,20)
+Binary.BackgroundTransparency = 1
+Binary.Font = Enum.Font.Code
+Binary.TextSize = 14
+Binary.TextColor3 = Color3.fromRGB(0,0,0)
+Binary.Text = "100101010101010101010101010101010"
+
+task.spawn(function()
+	while Binary.Parent do
+		Binary.Position = UDim2.new(1,0,0.45,0)
+		TweenService:Create(
+			Binary,
+			TweenInfo.new(3,Enum.EasingStyle.Linear),
+			{Position = UDim2.new(-1,0,0.45,0)}
+		):Play()
+		task.wait(3)
+	end
+end)
+
+local BarBG = Instance.new("Frame", Loading)
+BarBG.Position = UDim2.new(0.1,0,0.75,0)
+BarBG.Size = UDim2.new(0.8,0,0,22)
+BarBG.BackgroundColor3 = Color3.fromRGB(0,0,0)
+
+local Bar = Instance.new("Frame", BarBG)
+Bar.Size = UDim2.new(0,0,1,0)
+Bar.BackgroundColor3 = Color3.fromRGB(0,170,255)
+
+-- ================= MENU =================
+local Main = Instance.new("Frame", ScreenGui)
+Main.Size = UDim2.new(0,540,0,330)
+Main.Position = UDim2.new(0.5,-270,0.5,-165)
 Main.BackgroundColor3 = Color3.fromRGB(255,255,255)
-Main.BackgroundTransparency = 0.2
+Main.BackgroundTransparency = 1
+Main.BorderColor3 = Color3.fromRGB(0,200,0)
 Main.BorderSizePixel = 2
-Main.BorderColor3 = Color3.fromRGB(0, 200, 0)
+Main.Visible = false
 Main.Active = false
 Main.Draggable = false
-Main.Visible = false
 
--- TOP BAR
 local Top = Instance.new("Frame", Main)
-Top.Size = UDim2.new(1, 0, 0, 40)
-Top.BackgroundColor3 = Color3.fromRGB(255,255,255)
-Top.BackgroundTransparency = 0.1
-Top.BorderSizePixel = 0
+Top.Size = UDim2.new(1,0,0,55)
+Top.BackgroundTransparency = 1
 
--- TITLE
 local Title = Instance.new("TextLabel", Top)
-Title.Size = UDim2.new(1, -50, 1, 0)
-Title.Position = UDim2.new(0, 10, 0, 0)
+Title.Position = UDim2.new(0,12,0,5)
+Title.Size = UDim2.new(1,-60,0,25)
 Title.BackgroundTransparency = 1
-Title.TextXAlignment = Left
-Title.TextYAlignment = Center
-Title.TextWrapped = true
+Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.Font = Enum.Font.SourceSansBold
-Title.TextSize = 16
+Title.TextSize = 18
 Title.TextColor3 = Color3.fromRGB(0,0,0)
-Title.Text =
-	"SLK HUB        VERSION V1\nBY SLK GAMING"
+Title.Text = "SLK HUB        VERSION v1"
 
--- CLOSE
+local Sub = Instance.new("TextLabel", Top)
+Sub.Position = UDim2.new(0,12,0,30)
+Sub.Size = UDim2.new(1,-60,0,20)
+Sub.BackgroundTransparency = 1
+Sub.TextXAlignment = Enum.TextXAlignment.Left
+Sub.Font = Enum.Font.SourceSans
+Sub.TextSize = 14
+Sub.TextColor3 = Color3.fromRGB(80,80,80)
+Sub.Text = "BY SLK GAMING"
+
 local Close = Instance.new("TextButton", Top)
-Close.Size = UDim2.new(0, 40, 1, 0)
-Close.Position = UDim2.new(1, -40, 0, 0)
+Close.Size = UDim2.new(0,40,0,40)
+Close.Position = UDim2.new(1,-45,0,8)
 Close.Text = "X"
 Close.Font = Enum.Font.SourceSansBold
 Close.TextSize = 16
 Close.TextColor3 = Color3.fromRGB(255,255,255)
-Close.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
-
+Close.BackgroundColor3 = Color3.fromRGB(200,60,60)
 Close.MouseButton1Click:Connect(function()
 	ScreenGui:Destroy()
 end)
 
--- TAB
-local Tabs = Instance.new("Frame", Main)
-Tabs.Position = UDim2.new(0, 0, 0, 40)
-Tabs.Size = UDim2.new(0, 160, 1, -40)
-Tabs.BackgroundColor3 = Color3.fromRGB(255,255,255)
-Tabs.BackgroundTransparency = 0.25
-Tabs.BorderColor3 = Color3.fromRGB(0,200,0)
-Tabs.BorderSizePixel = 1
-
--- CONTENT
 local Content = Instance.new("Frame", Main)
-Content.Position = UDim2.new(0, 160, 0, 40)
-Content.Size = UDim2.new(1, -160, 1, -40)
-Content.BackgroundColor3 = Color3.fromRGB(255,255,255)
-Content.BackgroundTransparency = 0.15
-Content.BorderColor3 = Color3.fromRGB(0,200,0)
-Content.BorderSizePixel = 1
+Content.Position = UDim2.new(0,0,0,55)
+Content.Size = UDim2.new(1,0,1,-55)
+Content.BackgroundTransparency = 1
 
-local Label = Instance.new("TextLabel", Content)
-Label.Size = UDim2.new(1, 0, 1, 0)
-Label.BackgroundTransparency = 1
-Label.Text = "CONTENT"
-Label.Font = Enum.Font.SourceSansBold
-Label.TextSize = 18
-Label.TextColor3 = Color3.fromRGB(0,0,0)
+-- ================= LOADING PROCESS (10s) =================
+local totalTime = 10
+for i = 0,100 do
+	Percent.Text = "Loading "..i.."%"
+	Bar.Size = UDim2.new(i/100,0,1,0)
+	task.wait(totalTime/100)
+end
 
--- FADE IN AFTER LOADING
-task.wait(0.2)
+-- ================= REMOVE LOADING =================
+TweenService:Create(Loading,TweenInfo.new(0.4),{BackgroundTransparency=1}):Play()
+for _,v in pairs(Loading:GetDescendants()) do
+	if v:IsA("TextLabel") then
+		TweenService:Create(v,TweenInfo.new(0.4),{TextTransparency=1}):Play()
+	end
+end
+task.wait(0.45)
+Loading:Destroy()
+
+-- ================= SHOW MENU (FADE IN) =================
 Main.Visible = true
-Main.BackgroundTransparency = 1
-Top.BackgroundTransparency = 1
+TweenService:Create(Main,TweenInfo.new(0.8),{BackgroundTransparency=0.2}):Play()
 
-local fadeIn = TweenService:Create(
-	Main,
-	TweenInfo.new(0.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-	{BackgroundTransparency = 0.2}
-)
-fadeIn:Play()
+for _,v in pairs(Main:GetDescendants()) do
+	if v:IsA("TextLabel") then
+		v.TextTransparency = 1
+		TweenService:Create(v,TweenInfo.new(0.8),{TextTransparency=0}):Play()
+	end
+end
 
-task.wait(0.8)
+task.wait(0.9)
 Main.Active = true
 Main.Draggable = true
