@@ -1,4 +1,4 @@
--- SLK GAMING LOADING | FULL VERSION
+-- SLK GAMING LOADING | FULL FIX VERSION
 
 local TweenService = game:GetService("TweenService")
 local Player = game.Players.LocalPlayer
@@ -68,27 +68,32 @@ welcome.Font = Enum.Font.Code
 welcome.TextSize = 16
 welcome.TextColor3 = Color3.fromRGB(0,0,0)
 
--- BINARY TEXT
+-- BINARY TEXT (DÀI – CHẠY 1 CHIỀU – LẶP)
 local binary = Instance.new("TextLabel", frame)
-binary.Size = UDim2.new(0,200,0,20)
-binary.Position = UDim2.new(0.1,0,0.75,0)
+binary.Size = UDim2.new(0,600,0,20)
+binary.Position = UDim2.new(-1,0,0.75,0)
 binary.BackgroundTransparency = 1
-binary.Text = "10001010111001"
+binary.Text = "100101010101010101010101010101010"
 binary.Font = Enum.Font.Code
 binary.TextSize = 14
 binary.TextColor3 = Color3.fromRGB(0,0,0)
+binary.TextXAlignment = Enum.TextXAlignment.Left
 
--- BINARY MOVE LOOP
 task.spawn(function()
 	while gui.Parent do
-		binary:TweenPosition(UDim2.new(0.6,0,0.75,0), "InOut", "Linear", 1, true)
-		task.wait(1)
-		binary:TweenPosition(UDim2.new(0.1,0,0.75,0), "InOut", "Linear", 1, true)
-		task.wait(1)
+		binary.Position = UDim2.new(-1,0,0.75,0)
+		binary:TweenPosition(
+			UDim2.new(1,0,0.75,0),
+			Enum.EasingDirection.Linear,
+			Enum.EasingStyle.Linear,
+			4,
+			true
+		)
+		task.wait(4)
 	end
 end)
 
--- LOADING (10 SECONDS)
+-- LOADING (10 GIÂY)
 local totalTime = 10
 local steps = 100
 local delayTime = totalTime / steps
@@ -110,7 +115,7 @@ for i = 0, 100 do
 	task.wait(delayTime)
 end
 
--- END EFFECT
+-- END EFFECT (THU NHỎ + MỜ + BIẾN MẤT)
 task.wait(0.5)
 
 frame:TweenSize(
