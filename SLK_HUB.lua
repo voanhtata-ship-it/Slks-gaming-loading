@@ -100,24 +100,70 @@ local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 
--- GUI
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "SLK_HUB_GUI"
-ScreenGui.ResetOnSpawn = false
-ScreenGui.Parent = Player:WaitForChild("PlayerGui")
+-- ================= LOADING =================
+local LoadingGui = Instance.new("ScreenGui", Player.PlayerGui)
+LoadingGui.ResetOnSpawn = false
 
--- MAIN MENU
+local LFrame = Instance.new("Frame", LoadingGui)
+LFrame.Size = UDim2.new(0,420,0,260)
+LFrame.Position = UDim2.new(0.5,-210,0.5,-130)
+LFrame.BackgroundColor3 = Color3.fromRGB(255,255,255)
+LFrame.BorderSizePixel = 2
+
+local LText = Instance.new("TextLabel", LFrame)
+LText.Size = UDim2.new(1,0,0,40)
+LText.Position = UDim2.new(0,0,0,20)
+LText.BackgroundTransparency = 1
+LText.Text = "SLK HUB"
+LText.Font = Enum.Font.GothamBlack
+LText.TextSize = 30
+LText.TextColor3 = Color3.fromRGB(0,0,0)
+
+local BarBack = Instance.new("Frame", LFrame)
+BarBack.Size = UDim2.new(0.8,0,0,20)
+BarBack.Position = UDim2.new(0.1,0,0.5,0)
+BarBack.BackgroundColor3 = Color3.fromRGB(0,0,0)
+BarBack.BorderSizePixel = 0
+
+local Bar = Instance.new("Frame", BarBack)
+Bar.Size = UDim2.new(0,0,1,0)
+Bar.BackgroundColor3 = Color3.fromRGB(0,170,255)
+Bar.BorderSizePixel = 0
+
+-- loading run
+for i = 0,100 do
+	Bar.Size = UDim2.new(i/100,0,1,0)
+	task.wait(0.05)
+end
+
+-- fade out loading
+TweenService:Create(LFrame,TweenInfo.new(0.6),{BackgroundTransparency=1}):Play()
+for _,v in pairs(LFrame:GetDescendants()) do
+	if v:IsA("TextLabel") then
+		TweenService:Create(v,TweenInfo.new(0.6),{TextTransparency=1}):Play()
+	elseif v:IsA("Frame") then
+		TweenService:Create(v,TweenInfo.new(0.6),{BackgroundTransparency=1}):Play()
+	end
+end
+
+task.wait(0.7)
+LoadingGui:Destroy()
+
+-- ================= MENU =================
+local ScreenGui = Instance.new("ScreenGui", Player.PlayerGui)
+ScreenGui.ResetOnSpawn = false
+
 local Main = Instance.new("Frame", ScreenGui)
-Main.Size = UDim2.new(0, 520, 0, 320)
-Main.Position = UDim2.new(0.5, -260, 0.5, -160)
+Main.Size = UDim2.new(0,520,0,320)
+Main.Position = UDim2.new(0.5,-260,0.5,-160)
 Main.BackgroundColor3 = Color3.fromRGB(255,255,255)
 Main.BackgroundTransparency = 1
 Main.BorderColor3 = Color3.fromRGB(0,200,0)
 Main.BorderSizePixel = 2
+Main.Visible = true
 Main.Active = true
 Main.Draggable = true
 
--- TOP BAR
 local Top = Instance.new("Frame", Main)
 Top.Size = UDim2.new(1,0,0,40)
 Top.BackgroundTransparency = 1
@@ -126,67 +172,65 @@ local Title = Instance.new("TextLabel", Top)
 Title.Size = UDim2.new(1,-40,1,0)
 Title.Position = UDim2.new(0,10,0,0)
 Title.BackgroundTransparency = 1
-Title.TextXAlignment = Left
+Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.Font = Enum.Font.SourceSansBold
 Title.TextSize = 18
 Title.TextColor3 = Color3.fromRGB(0,0,0)
 Title.Text = "SLK HUB        VERSION v1"
 
--- MINUS BUTTON
-local MinBtn = Instance.new("TextButton", Top)
-MinBtn.Size = UDim2.new(0,30,0,30)
-MinBtn.Position = UDim2.new(1,-35,0,5)
-MinBtn.Text = "–"
-MinBtn.Font = Enum.Font.SourceSansBold
-MinBtn.TextSize = 22
-MinBtn.BackgroundColor3 = Color3.fromRGB(230,230,230)
-MinBtn.BorderSizePixel = 0
+local Min = Instance.new("TextButton", Top)
+Min.Size = UDim2.new(0,30,0,30)
+Min.Position = UDim2.new(1,-35,0,5)
+Min.Text = "–"
+Min.Font = Enum.Font.SourceSansBold
+Min.TextSize = 22
+Min.BackgroundColor3 = Color3.fromRGB(230,230,230)
+Min.BorderSizePixel = 0
 
--- FADE IN MENU
-TweenService:Create(Main, TweenInfo.new(0.6), {BackgroundTransparency = 0.2}):Play()
+-- mini bar
+local Mini = Instance.new("Frame", ScreenGui)
+Mini.Size = UDim2.new(0,200,0,35)
+Mini.Position = UDim2.new(0.5,-100,0.2,0)
+Mini.BackgroundColor3 = Color3.fromRGB(255,255,255)
+Mini.BorderColor3 = Color3.fromRGB(0,200,0)
+Mini.BorderSizePixel = 2
+Mini.Visible = false
+Mini.Active = true
+Mini.Draggable = true
+
+local Plus = Instance.new("TextButton", Mini)
+Plus.Size = UDim2.new(0,30,1,0)
+Plus.Text = "+"
+Plus.Font = Enum.Font.SourceSansBold
+Plus.TextSize = 22
+Plus.BackgroundColor3 = Color3.fromRGB(230,230,230)
+Plus.BorderSizePixel = 0
+
+local MiniText = Instance.new("TextLabel", Mini)
+MiniText.Position = UDim2.new(0,35,0,0)
+MiniText.Size = UDim2.new(1,-35,1,0)
+MiniText.BackgroundTransparency = 1
+MiniText.Text = "SLK HUB"
+MiniText.Font = Enum.Font.SourceSansBold
+MiniText.TextSize = 16
+MiniText.TextColor3 = Color3.fromRGB(0,0,0)
+
+-- fade in menu (QUAN TRỌNG)
+TweenService:Create(Main,TweenInfo.new(0.6),{BackgroundTransparency=0.2}):Play()
 for _,v in pairs(Main:GetDescendants()) do
 	if v:IsA("TextLabel") then
 		v.TextTransparency = 1
-		TweenService:Create(v, TweenInfo.new(0.6), {TextTransparency = 0}):Play()
+		TweenService:Create(v,TweenInfo.new(0.6),{TextTransparency=0}):Play()
 	end
 end
 
--- MINI BAR (HIDDEN FIRST)
-local MiniBar = Instance.new("Frame", ScreenGui)
-MiniBar.Size = UDim2.new(0,200,0,35)
-MiniBar.Position = UDim2.new(0.5,-100,0.2,0)
-MiniBar.BackgroundColor3 = Color3.fromRGB(255,255,255)
-MiniBar.BorderColor3 = Color3.fromRGB(0,200,0)
-MiniBar.BorderSizePixel = 2
-MiniBar.Visible = false
-MiniBar.Active = true
-MiniBar.Draggable = true
-
-local PlusBtn = Instance.new("TextButton", MiniBar)
-PlusBtn.Size = UDim2.new(0,30,1,0)
-PlusBtn.Text = "+"
-PlusBtn.Font = Enum.Font.SourceSansBold
-PlusBtn.TextSize = 22
-PlusBtn.BackgroundColor3 = Color3.fromRGB(230,230,230)
-PlusBtn.BorderSizePixel = 0
-
-local MiniTitle = Instance.new("TextLabel", MiniBar)
-MiniTitle.Position = UDim2.new(0,35,0,0)
-MiniTitle.Size = UDim2.new(1,-35,1,0)
-MiniTitle.BackgroundTransparency = 1
-MiniTitle.Text = "SLK HUB"
-MiniTitle.Font = Enum.Font.SourceSansBold
-MiniTitle.TextSize = 16
-MiniTitle.TextColor3 = Color3.fromRGB(0,0,0)
-
--- MINIMIZE
-MinBtn.MouseButton1Click:Connect(function()
+-- buttons
+Min.MouseButton1Click:Connect(function()
 	Main.Visible = false
-	MiniBar.Visible = true
+	Mini.Visible = true
 end)
 
--- RESTORE
-PlusBtn.MouseButton1Click:Connect(function()
-	MiniBar.Visible = false
+Plus.MouseButton1Click:Connect(function()
+	Mini.Visible = false
 	Main.Visible = true
 end)
